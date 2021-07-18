@@ -1,0 +1,27 @@
+server:
+  port: 10000
+spring:
+  application:
+    name: reception
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        - id: register
+          uri: lb://register
+          predicates:
+            - Path=/register/**
+          filters:
+            - StripPrefix=1
+        - id: doctor
+          uri: lb://doctor
+          predicates:
+            - Path=/doctor/**
+          filters:
+            - StripPrefix=1
